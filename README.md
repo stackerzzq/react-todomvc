@@ -4,7 +4,7 @@ A small case for study. Just take a look and practice. Enjoy :)
 
 ## Available Scripts
 
-### ·yarn·
+### `yarn`
 
 ### `yarn install`
 

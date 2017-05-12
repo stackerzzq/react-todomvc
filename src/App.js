@@ -18,7 +18,7 @@ class App extends Component {
 
     this.nowShowing = this.nowShowing.bind(this)
     this.clearCompleted = this.clearCompleted.bind(this)
-    this.handleTodoItems = this.handleTodoItems.bind(this)
+    this.handleModel = this.handleModel.bind(this)
   }
 
   nowShowing(type) {
@@ -29,37 +29,18 @@ class App extends Component {
 		this.state.model.clearCompleted();
 	}
 
-  handleTodoItems(msg, data) {
-    let todoModel = new TodoModel('react-todos')
-    let activeTodoCount = todoModel.todos.reduce(function (accum, todo) {
+  handleModel(msg, data) {
+    let activeTodoCount = data.reduce(function (accum, todo) {
       return todo.completed ? accum : accum + 1;
     }, 0)
     this.setState({
-      model: todoModel,
       activeTodoCount: activeTodoCount,
-      completedCount: todoModel.todos.length - activeTodoCount
+      completedCount: data.length - activeTodoCount
     })
-  }
-
-  shouldComponentUpdate() {
-    PubSub.subscribe(Conf.ADD_TODO, this.handleTodoItems)
-    PubSub.subscribe(Conf.DESTROY_TODO, this.handleTodoItems)
-    PubSub.subscribe(Conf.TOGGLE_TODO, this.handleTodoItems)
-    PubSub.subscribe(Conf.CLEAR_COMPLETED_TODOS, this.handleTodoItems)
-    PubSub.subscribe(Conf.SAVE_TODO, this.handleTodoItems)
-
-    return true;
   }
 
   componentWillMount() {
-    let todoModel = this.state.model;
-    let activeTodoCount = todoModel.todos.reduce(function (accum, todo) {
-      return todo.completed ? accum : accum + 1;
-    }, 0)
-    this.setState({
-      activeTodoCount: activeTodoCount,
-      completedCount: todoModel.todos.length - activeTodoCount
-    })
+    this.handleModel('', this.state.model.todos)
 
     switch (location.pathname) {
       case '/active':
@@ -92,6 +73,14 @@ class App extends Component {
 				/> : ''}
       </section>
     )
+  }
+
+  componentDidMount() {
+    PubSub.subscribe(Conf.ADD_TODO, this.handleModel)
+    PubSub.subscribe(Conf.DESTROY_TODO, this.handleModel)
+    PubSub.subscribe(Conf.TOGGLE_TODO, this.handleModel)
+    PubSub.subscribe(Conf.CLEAR_COMPLETED_TODOS, this.handleModel)
+    PubSub.subscribe(Conf.SAVE_TODO, this.handleModel)
   }
 }
 

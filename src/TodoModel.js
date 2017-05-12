@@ -22,7 +22,7 @@ class TodoModel {
 		}
 		this.todos = this.todos.concat(newTodo)
 
-		PubSub.publish(Conf.ADD_TODO, newTodo)
+		PubSub.publish(Conf.ADD_TODO, this.todos)
 		this.inform()
 	}
 
@@ -50,7 +50,7 @@ class TodoModel {
 			return candidate !== todo
 		})
 
-		PubSub.publish(Conf.DESTROY_TODO, todo)
+		PubSub.publish(Conf.DESTROY_TODO, this.todos)
 		this.inform()
 	}
 

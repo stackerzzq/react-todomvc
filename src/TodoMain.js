@@ -13,7 +13,7 @@ class TodoMain extends Component {
 
     this.toggleAll = this.toggleAll.bind(this)
     this.cancel = this.cancel.bind(this)
-    this.handleTodoItems = this.handleTodoItems.bind(this)
+    this.handleModel = this.handleModel.bind(this)
   }
 
   toggleAll(event) {
@@ -42,44 +42,25 @@ class TodoMain extends Component {
 		this.setState({editing: null});
 	}
 
-  handleTodoItems(msg, data) {
-    this.setState({
-      shownTodos : this.props.model.todos.filter((todo) => {
-        switch (this.props.nowShowing) {
-        case Conf.ACTIVE_TODOS:
-          return !todo.completed;
-        case Conf.COMPLETED_TODOS:
-          return todo.completed;
-        default:
-          return true;
-        }
+  handleModel(msg, data) {
+    if (data.length) {
+      this.setState({
+        shownTodos : data.filter((todo) => {
+          switch (this.props.nowShowing) {
+          case Conf.ACTIVE_TODOS:
+            return !todo.completed;
+          case Conf.COMPLETED_TODOS:
+            return todo.completed;
+          default:
+            return true;
+          }
+        })
       })
-    })
-  }
-
-  shouldComponentUpdate() {
-    PubSub.subscribe(Conf.ADD_TODO, this.handleTodoItems)
-    PubSub.subscribe(Conf.DESTROY_TODO, this.handleTodoItems)
-    PubSub.subscribe(Conf.TOGGLE_TODO, this.handleTodoItems)
-    PubSub.subscribe(Conf.CLEAR_COMPLETED_TODOS, this.handleTodoItems)
-    PubSub.subscribe(Conf.SAVE_TODO, this.handleTodoItems)
-
-    return true;
+    }
   }
 
   componentWillMount() {
-    this.setState({
-      shownTodos : this.props.model.todos.filter((todo) => {
-        switch (this.props.nowShowing) {
-        case Conf.ACTIVE_TODOS:
-          return !todo.completed;
-        case Conf.COMPLETED_TODOS:
-          return todo.completed;
-        default:
-          return true;
-        }
-      })
-    })
+    this.handleModel('', this.props.model.todos)
   }
 
   render() {
@@ -112,6 +93,14 @@ class TodoMain extends Component {
 				</ul>
 			</section>
     )
+  }
+
+  componentDidMount() {
+    PubSub.subscribe(Conf.ADD_TODO, this.handleModel)
+    PubSub.subscribe(Conf.DESTROY_TODO, this.handleModel)
+    PubSub.subscribe(Conf.TOGGLE_TODO, this.handleModel)
+    PubSub.subscribe(Conf.CLEAR_COMPLETED_TODOS, this.handleModel)
+    PubSub.subscribe(Conf.SAVE_TODO, this.handleModel)
   }
 }
 
