@@ -2,14 +2,11 @@ This project was bootstrapped with [Create React App][1].
 
 A small case for study. Just take a look and practice. Enjoy :)
 
-## Available Scripts
+# Available Scripts
 
-### `yarn`
+1. yarn
+2. yarn install
+3. yarn start
+4. yarn run build
 
-### `yarn install`
-
-### `yarn start`
-
-### `yarn run build`
-
-[1]:	https://github.com/facebookincubator/create-react-app
+[1]: https://github.com/facebookincubator/create-react-app

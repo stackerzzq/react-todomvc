@@ -1,0 +1,9 @@
+language: js
+
+addons:
+  sonarcloud:
+    organization: "stackerzzq-github"
+    token:
+      secure: 8ba716d05f702733853f9ef45f1550277734d0db
+script:
+  - sonar-scanner
