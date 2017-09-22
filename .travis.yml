@@ -1,7 +1,1 @@
 language: js
-
-before_install:
-  - npm install -g sonarqube-scanner
-
-script:
-  - sonar-scanner
