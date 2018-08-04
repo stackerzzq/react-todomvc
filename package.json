@@ -7,7 +7,7 @@
     "director": "^1.2.8",
     "pubsub-js": "^1.5.6",
     "react": "^15.5.4",
-    "react-dom": "^15.5.4",
+    "react-dom": "^16.0.1",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "todomvc": "^0.1.1",
